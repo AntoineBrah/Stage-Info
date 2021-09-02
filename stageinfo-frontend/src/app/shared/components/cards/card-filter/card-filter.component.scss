@@ -1,0 +1,14 @@
+.card{
+    margin-bottom:15px;
+
+    .card-body{
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        row-gap: 15px;
+        label{
+            margin:0 !important;
+            padding-right:1rem;
+            align-self: center;
+        }
+    }
+}

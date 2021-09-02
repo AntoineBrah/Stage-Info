@@ -1,0 +1,13 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.icon{
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+a > .icon{
+    color :#6c757d;
+}

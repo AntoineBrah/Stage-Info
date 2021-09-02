@@ -1,0 +1,23 @@
+:host{
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 1rem;
+    justify-content: space-between;
+    
+    .pagination{
+        .current-page{
+            background-color: #3f80ea;
+            color:white;
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    :host{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .pagination{
+        margin: 10px;
+    }
+}

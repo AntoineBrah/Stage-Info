@@ -1,0 +1,13 @@
+<a [routerLink]="['/liste-stages', stage._id]">
+    <div class="card card-stage"> 
+        <p class="stage-etat">
+            <app-state-badge [state]="stage?.etat"> {{ stage?.etat }} </app-state-badge>
+        </p>
+        <p class="stage-body">
+                <span class="stage-titre">{{ stage?.titre }}</span><br>
+                <span class="stage-entreprise">{{ stage?.entreprise?.nom }}</span>
+        </p>
+        <span class="stage-date">{{ stage?.datePropose | date:'yyyy' }}</span>
+    </div>
+</a>
+

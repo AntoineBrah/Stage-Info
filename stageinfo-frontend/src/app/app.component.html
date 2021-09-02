@@ -1,0 +1,29 @@
+<!-- Loading bar from https://dev.to/susomejias/automatic-page-loading-progress-bar-for-angular-3ann -->
+<ngx-loading-bar color="#0056b3" height="4px" [includeSpinner]="false"></ngx-loading-bar>
+
+<!-- Si on doit afficher une page avec header, footer et sidebar-->
+
+<!-- changer plus tard le boolean par une variable/fonction ...-->
+<div  class="wrapper">
+  <app-sidebar (sidebarEvent)="displaySidebar($event)" [showSidebar]="sidebar" *ngIf="isAuth && sidebar"></app-sidebar>
+
+  <div class="main">
+    <!--Output du component header pour savoir si on affiche ou non la sidebar -->
+    <!-- Si on est pas connecté on affiche seulement le titre du site dans le header-->
+    <app-header (sidebarEvent)="displaySidebar($event)" [showSidebar]="sidebar" [onlyTitle]="isAuth? false : true"></app-header>
+
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<!-- Si on doit afficher avec seulement le contenu que l'on souhaite-->
+<div *ngIf="false" class="full-page">
+  <router-outlet></router-outlet>
+</div>
+
+
+

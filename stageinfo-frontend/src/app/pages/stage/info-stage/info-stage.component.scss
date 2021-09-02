@@ -1,0 +1,105 @@
+// les variables couleurs sont importé du fichier scss colors
+@import '/src/assets/styles/colors.scss';
+
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card{
+    width: auto;
+    display: grid;
+    grid-template-columns: minmax(230px, 1fr) 1fr minmax(230px, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    gap: 15px 15px;
+    grid-template-areas:
+    "status status status"
+    "info encadrant entreprise"
+    "description description entreprise"
+    "avantages avantages avantages";
+
+    margin: 1rem;
+
+    #status-stage{
+        grid-area: status;
+        height:100%;
+    }
+    #informations-stage{
+        grid-area: info;
+    }
+    #information-stage-etendu{
+        grid-column-start: info;
+        grid-column-end: encadrant;
+    }
+    #avantages-stage{
+        grid-area: avantages;
+    }
+    #description-stage{
+        grid-area: description;
+    }
+    #entreprise-stage{
+        grid-area: entreprise;
+    }
+    #encadrant-stage{
+        grid-area: encadrant;
+    }
+}
+
+.form-group-row{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    row-gap: 15px;
+    margin:10px;
+
+    label{
+        width:100px;
+        align-self:center;
+        font-weight:bold;
+        margin:0;
+    }
+    select{
+        width:100%;
+    }
+    
+}
+
+#commentaires-stage, #pieces-jointes-stage{
+    margin: 1rem;
+}
+
+#btnSupprimerCommentaire{
+    color:$color-refuse;
+}
+#btnSupprimerCommentaire:hover{
+    text-decoration: underline;
+}
+
+#pieces-jointes-stage{
+    table{
+        background-color: #fff;
+        // pour permettre le border radius sur la table
+        border-collapse: separate !important;
+        border-spacing: 0;
+        border-radius: 0.25rem;
+    }
+
+
+}
+
+
+@media (max-width: 800px) {
+    .all-card {
+        width: auto;
+      grid-template-columns: auto;
+      grid-template-rows: auto auto auto auto auto auto;
+      row-gap: 15px;
+      column-gap: 0px;
+      grid-template-areas:
+      "status"
+      "info"
+      "encadrant"
+      "entreprise"
+      "description"
+      "avantages";
+    }
+  }

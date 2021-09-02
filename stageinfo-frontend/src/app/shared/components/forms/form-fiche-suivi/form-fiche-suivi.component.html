@@ -1,0 +1,132 @@
+<form [formGroup]="ficheSuiviForm" (ngSubmit)="onSubmitForm()">
+    <h1>{{ title }}</h1>
+    <!-- Section information -->
+    <fieldset>
+        <!-- Nom étudiant -->
+        <div class="form-group-row">
+            <label for="nom">Étudiant :</label>
+            <input id="nom" type="text" class="form-control" formControlName="nom" [ngbTypeahead]="searchUser" (input)="setRoleUser('etudiant')"/>
+        </div>
+
+        <!-- Parcours étudiant -->
+        <div class="form-group-row">
+            <label for="parcours">Parcours :</label>
+            <select id="parcours" class="form-control" formControlName="parcours">
+                <option value="" disabled selected>Parcours</option>
+                <option *ngFor="let x of allParcours" [ngValue]="x.acronyme.toLowerCase()"> {{ x.acronyme }} </option>
+            </select>
+        </div>
+
+        <!-- Niveau étudiant -->
+        <div class="form-group-row">
+            <label for="niveau">Niveau :</label>
+            <select id="niveau" class="form-control" formControlName="niveau">
+                <option value="" disabled selected>Niveau</option>
+                <option *ngFor="let x of niveau" [ngValue]="x.toLowerCase()"> {{ x }} </option>
+            </select>
+        </div>
+
+        <!-- Tuteur de l'étudiant -->
+        <div class="form-group-row">
+            <label for="tuteur">Tuteur :</label>
+            <select id="tuteur" class="form-control" formControlName="tuteur">
+                <option value="" disabled selected>Enseignant tuteur</option>
+                <ng-container *ngFor="let x of allUsers" >
+                    <option *ngIf="x.role === 'tuteur'" [ngValue]="x">{{ x.prenom }} {{ x.nom }}</option>
+                </ng-container>
+            </select>
+        </div>
+
+        <!-- Responsable entreprise -->
+        <div class="form-group-row">
+            <label for="responsable">Responsable :</label>
+            <select id="responsable" class="form-control" formControlName="responsable">
+                <option value="" disabled selected>Responsable entreprise</option>
+                <ng-container *ngFor="let x of allUsers" >
+                    <option *ngIf="x.role === 'representantEntreprise'" [ngValue]="x">{{ x.prenom }} {{ x.nom }}</option>
+                </ng-container>
+            </select>
+        </div>
+    </fieldset>
+
+    <hr>
+
+    <!-- Section échanges étudiant/tuteur -->
+    <fieldset>
+        <fieldset>
+            <ng-container formArrayName="contactItems" *ngFor="let item of contactItemsSection.controls; let i = index">
+                <div [formGroupName]="i">
+                    <div class="form-group-row">
+                        <label for="dateVisite">Date de visite {{ i+1 }} :</label>
+                        <input type="date" id="dateVisite" class="form-control" formControlName="dateVisite">
+                    </div>
+
+                    <div class="form-group-row">
+                        <label for="typeContact">Type de contact :</label>
+                        <select id="typeContact" class="form-control" formControlName="typeContact">
+                            <option value="" disabled selected>Type de contact</option>
+                            <option *ngFor="let x of contact" [ngValue]="x">{{ x }}</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-row">
+                        <label for="commentaire">Commentaire :</label>
+                        <textarea id="commentaire" class="form-control" formControlName="commentaire" rows="3"></textarea>
+                    </div>
+                </div>
+            </ng-container>
+        </fieldset>
+        
+        <button id="minus" type="button" class="btn btn-primary btn-floating" (click)="removeContactItem()">
+            <i class="fas fa-minus"></i>
+        </button>
+        <button id="add" type="button" class="btn btn-primary btn-floating" (click)="addContactItem()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </fieldset>
+
+    <hr>
+
+    <!-- Bilan du stage -->
+    <fieldset>
+        <!-- Date début -->
+        <div class="form-group-row">
+            <label for="dateDebut">Date de début :</label>
+            <input type="date" id="dateDebut" class="form-control" formControlName="dateDebut">
+        </div>
+
+        <!-- Date fin -->
+        <div class="form-group-row">
+            <label for="dateFin">Date de fin :</label>
+            <input type="date" id="dateFin" class="form-control" formControlName="dateFin">
+        </div>
+
+        <!-- Bilan explicatif -->
+        <div class="form-group">
+            <label for="bilan">Bilan :</label>
+            <textarea 
+                id="bilan"
+                class="form-control" 
+                formControlName="bilan"
+                rows="3"
+                placeholder="Bilan du stage pratique (sur l'entreprise, votre encadrement, l'adéquation de votre formation, autre...)">
+            </textarea>
+        </div>
+
+        <!-- Embauche -->
+        <div class="form-group-row">
+            <label for="embauche">Embauche :</label>
+            <select id="embauche" class="form-control" formControlName="embauche">
+                <option value="" disabled selected>L'entreprise est-elle prete a embaucher ?</option>
+                <option *ngFor="let x of reponseBinaire" [ngValue]="x"> {{ x }}</option>
+            </select>
+        </div>
+    </fieldset>
+
+    <hr>
+
+    <p>Fait le : {{ todayNumber | date }}</p>
+
+    <button class="btn btn-primary" type="submit" [disabled]="ficheSuiviForm.invalid">Valider</button>
+</form>
+

@@ -1,0 +1,14 @@
+<p>Résultats de  {{ numFirstItemOfPage() }} à {{ numLastItemOfPage() }} sur {{ commonProperties.sizeFilteredArray }}</p>
+<ul class="pagination">
+    <li class="page-item" (click)="onClickPreviousPage()"><a class="page-link">Précédent</a></li>
+        <li class="page-item" [ngStyle]="{'display': this.commonProperties.currentPage>3? 'block':'none'}"><a class="page-link">...</a></li>
+        <ng-container *ngFor="let number of [].constructor(this.commonProperties.pageCount); let i = index">
+        <li class="page-item" 
+            (click)="onClickPageNumber(i+1)"
+            [ngStyle]="{'display': (i+1)<this.commonProperties.currentPage? this.commonProperties.currentPage-(i+1)<3? 'block':'none' : (i+1)-this.commonProperties.currentPage<3? 'block':'none'}">
+            <a [ngClass]="i+1==this.commonProperties.currentPage? 'current-page page-link' : 'page-link'">{{ i+1 }}</a>
+        </li>
+    </ng-container>
+    <li class="page-item" [ngStyle]="{'display': this.commonProperties.currentPage<=this.commonProperties.pageCount-3? 'block':'none'}"><a class="page-link">...</a></li>
+    <li class="page-item" (click)="onClickNextPage()"><a class="page-link">Suivant</a></li>
+</ul>

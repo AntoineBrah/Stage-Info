@@ -1,0 +1,32 @@
+<app-navigation title="Export des Notes"></app-navigation>
+
+<div class="all-card-profile">
+  <div id="info-user" class="card">
+    <div class="card-body">
+      <form [formGroup]="importForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+
+
+          <label for="ann">Export des Notes</label>
+          <input  id="ann"
+                  type="text"
+                  class="form-control"
+                  placeholder="Année universitaire"
+                  name="Année universitaire"
+                  formControlName="ann"
+          >
+        </div>
+
+
+
+
+        <button type="submit" style="float:right;" class="btn btn-sm btn-primary" id="export" >Export </button>        <br>
+        <br>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

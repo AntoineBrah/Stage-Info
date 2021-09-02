@@ -1,0 +1,98 @@
+<h1>{{ title }}</h1>
+<app-card-filter [commonProperties]="commonProperties"></app-card-filter>
+
+
+<app-card-table>
+    <!-- component select pour le nombre de ligne à afficher sur une page dans le tableau-->
+    <app-nbItems entries [commonProperties]="commonProperties"></app-nbItems>
+    
+    <!-- Bouton ajouter => ouvre un modal avec le formulaire d'ajout -->
+    <app-button-add button1 data-toggle="modal" data-target="#ajouter"></app-button-add>
+        
+    <button button2 routerLink="/liste-utilisateurs/import-users" style="margin-left:5px; " class="btn btn-secondary btn-sm">
+        <i style="margin-right:5px;" class="fas fa-file-import"></i>
+        importer
+    </button>
+    
+    <div content class="table-responsive">
+        <table class="card-table table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(0)" [sorted]="visibleProperties[0].sorted">
+                            Nom
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(1)" [sorted]="visibleProperties[1].sorted">
+                            Email
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(2)" [sorted]="visibleProperties[2].sorted">
+                            Role
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of getItems()">
+                    <td><a [routerLink]="['/liste-utilisateurs/user/', user._id]">{{ user.nom }} {{ user.prenom }}</a></td>
+                    <td>{{ user.email }}</td>
+                    <td><app-role-badge [role]="user?.role"> {{ user?.role }} </app-role-badge></td>
+                    <td class="table-action">
+                        <!-- Bouton edit => ouvre un modal avec le formulaire de modification -->
+                        <app-button-edit data-toggle="modal" (click)="selectedItem(user)" data-target="#modifier"></app-button-edit>
+                        <!-- Bouton delete => ouvre un modal avec la demande de suppression -->
+                        <app-button-delete data-toggle="modal" (click)="selectedItem(user)" data-target="#suppression"></app-button-delete>
+                    </td>
+                </tr>  
+            </tbody>
+        </table>
+        
+        <app-pagination [commonProperties]="commonProperties"></app-pagination>
+    </div>    
+</app-card-table>
+
+
+<!---------------------------------------------------->
+<!-------------------- LES MODALS -------------------->
+<!---------------------------------------------------->
+
+<!-- Modal pour Ajouter un item (formulaire d'ajout) -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="ajouter">
+        <span title>Ajouter un utilisateur</span>
+        <app-form-user content 
+            [addUser]="true"
+            (userEvent)="addUser($event)">
+        </app-form-user>
+</app-modal>
+
+<!-- Modal avec le formulaire de modification de l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="modifier">
+    <span title>Modifier l'utilisateur : {{ selectItem.nom + ' ' + selectItem.prenom }}</span>
+    <app-form-user content 
+        [editUser]="true"
+        [idUser]="selectItem._id"
+        [selectedUser]="selectItem"
+        (userEvent)="updateTable($event)">
+    </app-form-user>
+</app-modal>
+
+<!-- Modal pour supprimer l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="suppression">
+    <span title> Supprimer l'utilisateur </span>
+    <p content>Confirmer la suppression de l'utilisateur : <strong> {{ selectItem.nom + ' ' + selectItem.prenom }}</strong></p>
+    <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+    <button button2 (click)="deleteUser(selectItem._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+</app-modal>

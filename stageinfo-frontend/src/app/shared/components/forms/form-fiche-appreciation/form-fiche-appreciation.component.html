@@ -1,0 +1,39 @@
+<form [formGroup]="ficheAppreciationForm" (ngSubmit)="onSubmitForm()">
+    <h1>{{ title }}</h1>
+
+    <fieldset>
+        <!-- Nom étudiant -->
+        <div class="form-group-row">
+            <label>Étudiant :</label>
+            <input type="text" />
+        </div>
+        <!-- Service -->
+        <div class="form-group-row">
+            <label>Au service :</label>
+            <input type="text" />
+        </div>
+        <!-- Nom entreprise -->
+        <div class="form-group-row">
+            <label>Nom entreprise :</label>
+            <input type="text" />
+        </div>
+        <!-- Adresse entreprise -->
+        <div class="form-group-row">
+            <label>Adresse entreprise :</label>
+            <input type="text" />
+        </div>
+        <!-- Adresse email -->
+        <div class="form-group-row">
+            <label>Adresse email :</label>
+            <input type="text" />
+        </div>
+        <!-- Téléphone -->
+        <div class="form-group-row">
+            <label>Téléphone :</label>
+            <input type="text" />
+        </div>
+    </fieldset>
+
+    <p>D'autres champs sont à ajouter...</p>
+</form>
+

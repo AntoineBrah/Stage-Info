@@ -1,0 +1,215 @@
+
+<ul *ngIf="addEntreprise" class="nav-progress">
+    <li [ngClass]="isDone('entreprise')? 'fieldset-active progress-first' : '' ">
+        <i class="fas fa-lg fa-building"></i>
+        Entreprise
+    </li>
+    <li [ngClass]="isDone('adresse')? 'fieldset-active progress-second' : '' ">
+        <i class="fas fa-lg fa-map-marker-alt"></i>
+        Adresse
+    </li>
+    <li [ngClass]="isDone('contact')? 'fieldset-active progress-third' : '' ">
+        <i class="fas fa-lg fa-address-book"></i> 
+        Contact
+    </li>
+    <li [ngClass]="isDone('informations')? 'fieldset-active progress-fourth' : '' ">
+        <i class="fas fa-lg fa-info"></i>
+        Infos
+    </li>
+</ul>
+
+<form [formGroup]="entrepriseForm" (ngSubmit)="onSubmitForm()">
+
+    <!-- Section information profile-->
+    <!-- nouvelle entreprise -->
+    <fieldset *ngIf="editEntreprise? true : displayFielset('entreprise')">
+        <!-- Nom de l'entreprise -->
+        <div class="form-group-row">
+            <label  [for]="addEntreprise ? 'addInputNomEntreprise':'editInputNomEntreprise'">Entreprise</label>
+            <input  type="text" 
+                    [id]="addEntreprise ? 'addInputNomEntreprise':'editInputNomEntreprise'"
+                    class="form-control"
+                    placeholder="Nom de l'entreprise" 
+                    name="entrepriseNom"
+                    formControlName="nom">                    
+        </div>
+        <!-- Secteur d'activité de l'entreprise -->
+        <div class="form-group-row">
+            <label [for]="addEntreprise ? 'addInputActiviteEntreprise':'editInputActiviteEntreprise'">Secteur d'activité</label>
+            <input  type="text" 
+                    [id]="addEntreprise ? 'addInputActiviteEntreprise':'editInputActiviteEntreprise'"  
+                    class="form-control"
+                    placeholder="Secteur d'activité de l'entreprise" 
+                    name="entrepriseSecteurActivite"
+                    formControlName="secteurActivite">
+        </div>
+        <!-- Description de l'entreprise -->
+        <div class="form-group-row">
+            <label [for]="addEntreprise ? 'addInputDescriptionEntreprise':'editInputDescriptionEntreprise'">Description</label>
+            <textarea   [id]="addEntreprise ? 'addInputDescriptionEntreprise':'editInputDescriptionEntreprise'"
+                        class="form-control" 
+                        rows="3"
+                        placeholder="Description de l'entreprise" 
+                        name="entrepriseDescription"
+                        formControlName="description"></textarea>
+        </div>
+    </fieldset>
+    <!-- Coordonnées de l'entreprise-->
+    <fieldset *ngIf="editEntreprise? true : displayFielset('adresse')">
+            <!-- Adresse de l'entreprise -->
+            <div class="form-group-row">
+                <label [for]="addEntreprise ? 'addInputAdresseVoieEntreprise':'editInputAdresseVoieEntreprise'">Voie</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputAdresseVoieEntreprise':'editInputAdresseVoieEntreprise'"
+                        class="form-control"
+                        placeholder="Adresse de l'entreprise" 
+                        name="entrepriseAdresseVoie"
+                        formControlName="voie">
+            </div>
+            <!-- Code postale de l'entreprise -->
+            <div class="form-group-row">
+                <label [for]="addEntreprise ? 'addInputCodePostalEntreprise':'editInputCodePostalEntreprise'">Code Postal</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputCodePostalEntreprise':'editInputCodePostalEntreprise'" 
+                        class="form-control"
+                        placeholder="Code Postal de l'entreprise" 
+                        name="entrepriseCodePostal"
+                        formControlName="codePostal">
+            </div>
+            <!-- Ville où est localiser l'entreprise -->
+            <div class="form-group-row">
+                <label [for]="addEntreprise ? 'addInputVilleEntreprise':'editInputVilleEntreprise'">Ville</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputVilleEntreprise':'editInputVilleEntreprise'"  
+                        class="form-control"
+                        placeholder="Ville de l'entreprise" 
+                        name="entrepriseVille"
+                        formControlName="ville">
+            </div>
+            <!-- Pays où est localiser l'entreprise -->
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputPaysEntreprise':'editInputPaysEntreprise'" >Pays</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputPaysEntreprise':'editInputPaysEntreprise'"   
+                        class="form-control"
+                        placeholder="Pays de l'entreprise" 
+                        name="entreprisePays"
+                        formControlName="pays">
+            </div>
+        </fieldset>
+
+        <fieldset *ngIf="editEntreprise? true : displayFielset('contact')">
+
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputSiteWebEntreprise':'editInputSiteWebEntreprise'">Site Web</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputSiteWebEntreprise':'editInputSiteWebEntreprise'"  
+                        class="form-control"
+                        placeholder="Site Web de l'entreprise" 
+                        name="entrepriseSiteWeb"
+                        formControlName="siteweb">
+            </div>
+
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputTelEntreprise':'editInputTelEntreprise'">Tel</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputTelEntreprise':'editInputTelEntreprise'"
+                        class="form-control"
+                        placeholder="Téléphone de l'entreprise" 
+                        name="entrepriseTel"
+                        formControlName="tel">
+            </div>
+
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputFaxEntreprise':'editInputFaxEntreprise'">Fax</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputFaxEntreprise':'editInputFaxEntreprise'" 
+                        class="form-control"
+                        placeholder="Fax de l'entreprise" 
+                        name="entrepriseFax"
+                        formControlName="fax">
+            </div>
+
+        </fieldset>
+
+        <fieldset *ngIf="editEntreprise? true : displayFielset('informations')">
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputSiretEntreprise':'editInputSiretEntreprise'">N° Siret</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputSiretEntreprise':'editInputSiretEntreprise'"  
+                        class="form-control"
+                        placeholder="Siret de l'entreprise" 
+                        name="entrepriseSiret"
+                        formControlName="siret">
+            </div>
+
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputRepresentantEntreprise':'editInputRepresentantEntreprise'">Représentant</label>
+                <select  type="text" 
+                        [id]="addEntreprise ? 'addInputRepresentantEntreprise':'editInputRepresentantEntreprise'"  
+                        class="form-control"
+                        name="entrepriseRepresentant"
+                        formControlName="representant">
+                    <option [ngValue]="null" disabled selected>Selectionner le représentant</option>
+                    <option *ngFor="let user of allUsers" [ngValue]="user?._id">{{ user?.nom + ' ' + user?.prenom }}</option>     
+                </select>
+            </div>
+
+            <div class="form-group-row">
+                <label  [for]="addEntreprise ? 'addInputNbSalariesEntreprise':'editInputNbSalariesEntreprise'">Nombre de salariés</label>
+                <input  type="number" 
+                        [id]="addEntreprise ? 'addInputNbSalariesEntreprise':'editInputNbSalariesEntreprise'"  
+                        class="form-control"
+                        placeholder="Nombre de salariés de l'entreprise" 
+                        name="entrepriseNbSalaries"
+                        min=0
+                        formControlName="nbSalaries">
+            </div>
+
+            <div class="form-group-row" >
+                <label  [for]="addEntreprise ? 'addInputChiffreAffaireEntreprise':'editInputChiffreAffaireEntreprise'">ChiffreAffaire</label>
+                <input  type="text" 
+                        [id]="addEntreprise ? 'addInputChiffreAffaireEntreprise':'editInputChiffreAffairesEntreprise'"  
+                        class="form-control"
+                        placeholder="Chiffre d'affaire de l'entreprise" 
+                        name="entrepriseChiffreAffaire"
+                        formControlName="chiffreAffaire">
+            </div>
+    </fieldset>  
+
+
+    <!-- Si Modification Entreprise -->
+    <button *ngIf="editEntreprise" 
+            type="submit" id="editButton" name="editButton" value="Submit"
+            (click)="onSubmitForm()" 
+            data-dismiss="modal" 
+            class="btn btn-primary btn-sm btn-modifier" 
+            [disabled]="entrepriseForm.pristine">
+        Modifier
+    </button>
+
+    <!-- Les boutons -->
+    <div *ngIf="addEntreprise" class="block-btn">
+        <button *ngIf="!lastPage()" 
+                type="button" id="nextButton" name="nextButton" value="Next"
+                (click)="next()" 
+                [disabled]="disabledNext()" 
+                class="btn btn-primary btn-sm btn-next" >
+            Suivant
+        </button>
+        <button *ngIf="lastPage()" 
+                type="submit" id="addButton" name="addButton" value="Submit"
+                (click)="onSubmitForm()" 
+                data-dismiss="modal"
+                class="btn btn-primary btn-sm btn-done">
+            Terminer
+        </button>
+        <button *ngIf="!firstPage()" 
+                type="button" id="predButton" name="predButton" value="Pred"
+                (click)="pred()" 
+                class="btn btn-secondary btn-sm btn-pred" >
+            Précédent
+        </button>
+    </div>
+    
+</form>

@@ -1,0 +1,39 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card-profile{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 15px 15px;
+    grid-template-areas:
+    ". card-add-user .";
+}
+
+table{
+    width:100%;
+    margin:auto;
+}
+
+.card{
+    grid-area: card-add-user;
+}
+
+
+.form-control{
+    height: initial;
+    padding:4px;
+}
+
+input{
+    width:100%;
+}
+
+
+
+
+
+
+
+

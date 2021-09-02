@@ -1,0 +1,42 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.card{
+    margin:0;
+    .card-header{
+        padding-bottom: 0;
+    }
+    .card-body{
+        padding-top: 0;
+    }
+}
+
+h1{
+    text-align: center;
+}
+
+
+.all-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto auto;
+    gap: 15px 15px;
+    grid-template-areas:
+    "calendrier calendrier "
+    "init salles"
+    "parametres parametres";
+    #calendriers-soutenance{
+        grid-area: calendrier;
+    }
+    #init-calendrier{
+        grid-area: init;
+    }
+    #salles-calendrier{
+        grid-area: salles;
+    }
+    #parametres-calendrier{
+        grid-area: parametres;
+    }
+}

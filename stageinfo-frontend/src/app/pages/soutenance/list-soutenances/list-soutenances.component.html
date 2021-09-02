@@ -1,0 +1,58 @@
+<h1>{{ title }}</h1>
+<app-card-filter [commonProperties]="commonProperties"></app-card-filter>
+
+<app-card-table>
+        <!-- component select pour le nombre de ligne à afficher sur une page dans le tableau-->
+        <app-nbItems entries [commonProperties]="commonProperties"></app-nbItems>
+        <button button1 routerLink="/configuration-calendrier-soutenances" type="submit" style="float:right;" class="btn btn-secondary btn-sm">
+            <i style="margin-right:5px;" class="fas fa-tools"></i>
+            Configurer le calendrier
+        </button> 
+    <div content class="table-responsive">
+        <table class="card-table table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Heure</th>
+                    <th scope="col">Salle</th>
+                    <th scope="col">Etudiant</th>
+                    <th scope="col">Stage</th>
+                    <th scope="col">Entreprise</th>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Representant</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let soutenance of getItems()">
+                    <td>Date</td>
+                    <td>Heure</td>
+                    <td>Salle</td>
+                    <td><a routerLink="/liste-soutenances/soutenance">{{ soutenance.etudiant }}</a></td>
+                    <td>Stage</td>
+                    <td>entreprise</td>
+                    <td>{{ soutenance.tuteurUniv}}</td>
+                    <td>{{ soutenance.tuteurEntreprise }}</td>
+                    <td class="table-action">
+                        <!-- Bouton edit => ouvre un modal avec le formulaire de modification -->
+                        <app-button-edit data-toggle="modal" (click)="selectedItem(soutenance)" data-target="#planificationSoutenance"></app-button-edit>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [commonProperties]="commonProperties"></app-pagination> 
+    </div>
+</app-card-table>
+
+<!---------------------------------------------------->
+<!-------------------- LES MODALS -------------------->
+<!---------------------------------------------------->
+
+
+<!-- Modal avec le formulaire planification soutenance -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="planificationSoutenance">
+    <span title>Planifier la soutenance </span>
+</app-modal>

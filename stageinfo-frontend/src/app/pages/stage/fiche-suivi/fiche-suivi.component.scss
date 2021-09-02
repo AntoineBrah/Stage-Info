@@ -1,0 +1,38 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card{
+    margin-top:2rem;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+    ". card-add-stage .";
+    #add-fiche-suivi{
+        grid-area: card-add-stage;
+        .card-title{
+            margin-bottom: 0 !important;
+        }
+        .card-header{
+            padding-bottom: 0;
+        }
+    }
+}
+@media (max-width: 800px) {
+    .all-card{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "card-add-stage";
+    }
+}
+h1{
+    text-align: center;
+}
+
+
+
+
+
+

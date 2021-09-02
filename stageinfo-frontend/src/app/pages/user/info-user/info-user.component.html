@@ -1,0 +1,43 @@
+<app-navigation *ngIf="!myProfile" [title]="'Utilisateur : ' + user?.nom + ' ' + user?.prenom"></app-navigation>
+
+<h1 *ngIf="myProfile">Mon profile</h1>
+
+<div class="all-card">
+    <app-card id="info-user" title="Informations Utilisateur">
+        <app-form-user  
+            [viewUser]="true" 
+            title="Profile utilisateur"
+            [selectedUser]="user">
+        </app-form-user>
+    </app-card>
+
+
+    <!-- Les stages associées à l'utilisateur -->
+    <app-card title="Stages">
+        <!-- Card d'un stage -->
+        <app-card-item-stage *ngFor="let stage of stages" [stage]="stage" ></app-card-item-stage>
+        <!-- Si aucun stage n'existe -->
+        <p class="message-aucun-stage" *ngIf="!stages.length">Il n'y a aucun stage associé à cet utilisateur.</p>
+    </app-card>
+</div>
+
+<!-- Debut du Modal suppression utilisateur -->
+<div class="modal fade" id="suppression-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Suppression Utilisateur</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Confirmer la suppression de l'utilisateur.
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+        <button routerLink="/liste-utilisateurs" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+        </div>
+    </div>
+    </div>
+</div>

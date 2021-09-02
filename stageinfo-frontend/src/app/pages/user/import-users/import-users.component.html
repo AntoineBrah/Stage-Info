@@ -1,0 +1,43 @@
+<app-navigation title="Importer des Étudiants"></app-navigation>
+
+<div class="all-card-profile">
+    <div id="info-user" class="card">
+        <div class="card-body">
+          <form [formGroup]="importForm" (ngSubmit)="envoyer()">
+                <div class="form-group">
+                  <div *ngIf="alert" class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span></button>
+                    {{u}} Utilisateur importer avec sucées.
+                  </div>
+                  <div *ngIf="alert1" class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span></button>
+                    Les utilisateur ci dessus ont été mise a jour : <br>{{alert1}}
+                  </div>
+                    <label for="ann">Importation des étudiants :</label>
+                  <input  id="ann"
+                          type="text"
+                          class="form-control"
+                          placeholder="Année universitaire"
+                          name="Année universitaire"
+                          formControlName="ann"
+                          >
+                </div>
+
+                <div class="form-group-row">
+
+                      <label for='files'>Select files <input id='files' type="file" (input)="fileChoosen($event)" accept=".csv" ></label>
+
+
+                </div>
+
+
+                <button type="submit" style="float:right;" class="btn btn-sm btn-primary">Importer les utilisateurs</button>
+            <br>
+            <br>
+            <p *ngIf="errorMessage" class="alert alert-danger"> Les utilisateur ci dessus existe dêja :<br>{{errorMessage}}</p>
+              </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+// les variables couleurs sont importé du fichier scss colors
+@import '/src/assets/styles/colors.scss';
+
+
+$states: (
+    "propose": $color-propose, 
+    "valide": $color-valide, 
+    "refuse": $color-refuse,
+    "reserve": $color-reserve,
+    "affectEtudiant":$color-affectEtudiant,
+    "affectTuteur": $color-affectTuteur,
+    "affectRapporteur": $color-affectRapporteur,
+    "termine":$color-termine);
+
+@each $name, $color in $states {
+.state-#{$name} {
+    color: #fff;
+    background-color: $color;
+  }
+}
+.state-propose{
+    color: #000;
+    background-color: $color-propose;
+}
+.state-affectRapporteur{
+    color: #000;
+    background-color: $color-affectRapporteur;
+}

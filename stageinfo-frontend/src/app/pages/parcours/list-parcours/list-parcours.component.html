@@ -1,0 +1,100 @@
+<h1>{{ title }}</h1>
+<app-card-filter [commonProperties]="commonProperties"></app-card-filter>
+
+<app-card-table>
+    <!-- component select pour le nombre de ligne à afficher sur une page dans le tableau-->
+    <app-nbItems entries [commonProperties]="commonProperties"></app-nbItems>
+
+    <!-- Bouton ajouter => ouvre un modal avec le formulaire d'ajout -->
+    <app-button-add button1 data-toggle="modal" data-target="#ajouter"></app-button-add>
+    
+    <div content class="table-responsive">
+        <table class="card-table table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(0)" [sorted]="visibleProperties[0].sorted">
+                            Acronyme
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(1)" [sorted]="visibleProperties[1].sorted">
+                            Intitule
+                        </app-th-table-sort>
+                    </th>
+                    
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(2)" [sorted]="visibleProperties[2].sorted">
+                            Niveau
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(3)" [sorted]="visibleProperties[3].sorted">
+                            Responsable
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let parcours of getItems()">
+                    <!-- On rajoute le pipe uppercase pour mettre l'acronyme tout le temps en majuscule-->
+                    <td><span class="badge badge-secondary">{{ parcours.acronyme | uppercase }}</span></td>
+                    <td>{{ parcours.intitule }}</td>
+                    <td>{{ parcours.niveau }}</td>
+                    
+                    <td *ngIf="parcours.responsable"><a [routerLink]="['/liste-utilisateurs/user/', parcours.responsable._id]">{{ parcours.responsable.nom + ' ' + parcours.responsable.prenom }}</a></td>
+                    <td *ngIf="!parcours.responsable"> undefined </td>
+                    <td class="table-action">
+                        <!-- Bouton edit => ouvre un modal avec le formulaire de modification -->
+                        <app-button-edit data-toggle="modal" (click)="selectedItem(parcours)" data-target="#modifier"></app-button-edit>
+                        <!-- Bouton delete => ouvre un modal avec la demande de suppression -->
+                        <app-button-delete data-toggle="modal" (click)="selectedItem(parcours)" data-target="#suppression"></app-button-delete>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <app-pagination [commonProperties]="commonProperties"></app-pagination>
+    </div>    
+</app-card-table>
+
+
+
+<!---------------------------------------------------->
+<!-------------------- LES MODALS -------------------->
+<!---------------------------------------------------->
+
+<!-- Modal avec le formulaire de modification de l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="modifier">
+    <span title>Modifier le parcours : {{ selectItem.acronyme | uppercase }}</span>
+    <app-form-parcours content 
+                            [editParcours]="true"
+                            [idParcours]="selectItem._id"
+                            [selectedParcours]="selectItem"
+                            (parcoursEvent)="updateTable($event)">
+    </app-form-parcours>
+</app-modal>
+
+<!-- Modal pour supprimer l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="suppression">
+    <span title> Supprimer le parcours </span>
+    <p content>Confirmer la suppression du parcours : <strong>{{ selectItem.acronyme | uppercase }}</strong></p>
+    <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+    <button button2 (click)="deleteParcours(selectItem._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+</app-modal>
+
+<!-- Modal pour Ajouter un item (formulaire d'ajout) -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="ajouter">
+        <span title>Ajouter le parcours</span>
+        <app-form-parcours content [addParcours]="true" (parcoursEvent)="addParcours($event)"></app-form-parcours>
+</app-modal>

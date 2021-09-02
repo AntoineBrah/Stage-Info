@@ -1,0 +1,37 @@
+.card{
+    margin:0;
+    border:none;
+    box-shadow: 0 0 0.875rem 0 rgb(41 48 66 / 5%);
+
+    .card-header{
+        padding-top: 1.25rem;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 0 solid transparent;
+        
+        .card-title{
+            padding-bottom: 0;
+            margin-bottom: 0;
+            font-size: .95rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .card-subtitle{
+            font-size: .85rem;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+    }
+    
+    .card-body{
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+
+    .card-table{
+        margin-top:1.25rem !important;
+    }
+}

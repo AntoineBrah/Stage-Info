@@ -1,0 +1,182 @@
+<ul class="nav-progress">
+    <li [ngClass]="isDone('stage')? 'fieldset-active progress-first' : '' ">
+        <i class="fas fa-lg fa-bars"></i>
+        Stage</li>
+
+    <li [ngClass]="isDone('entreprise')? 'fieldset-active progress-second' : '' ">
+        <i class="fas fa-lg fa-building"></i>
+        Entreprise
+    </li>
+
+    <li [ngClass]="isDone('more')? 'fieldset-active progress-third' : '' ">
+        <i class="fas fa-lg fa-info"></i>
+        More
+    </li>
+</ul>
+
+<!-- affichage du message d'ajout ou de modification quand la variable showMessages est true-->
+<div *ngIf="showMessages && message" class="alert alert-primary">
+    <p><strong>Message : </strong>{{ message }}</p>
+</div>
+<div *ngIf="showMessages && message"
+    class="alert alert-primary alert-dismissible fade show" role="alert">
+    <p><strong>Message : </strong>{{ message }}</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="stageForm" (ngSubmit)="onSubmitForm()" class="needs-validation" novalidate>
+    <!-- Section informations du stage -->
+    <fieldset *ngIf="displayFielset('stage')">
+        <!-- Titre du stage -->
+        <div class="form-group-row">
+            <label  [for]="addStage ? 'addInputTitre':'editInputTitre'">Titre</label>
+            <input  [id]="addStage ? 'addInputTitre':'editInputTitre'"
+                type="text"
+                [class]="displayValidationInputStyle(stageFormControl.titre)"
+                placeholder="Titre du stage"
+                name="titre"
+                formControlName="titre" required>
+        </div>
+        
+        <!-- Niveau requis du stage -->
+        <div class="form-group-row">
+            <label  [for]="addStage ? 'addInputNiveauRequis':'editInputNiveauRequis'">Niveau requis</label>
+            <select [id]="addStage ? 'addInputNiveauRequis':'editInputNiveauRequis'"
+                    [class]="displayValidationSelectStyle(stageFormControl.niveauRequis)"
+                    name="niveauRequis"
+                    formControlName="niveauRequis">
+                <option value="" disabled selected>Selectionner le niveau requis</option>
+                <option *ngFor="let i of niveauRequis">{{ i }}</option>
+            </select>
+        </div>
+        <!--  Parcours recommander pour le stage -->
+        <div class="form-group-row">
+            <label  [for]="addStage ? 'addInputParcours':'editInputParcours'">Parcours</label>
+            <select [id]="addStage ? 'addInputParcours':'editInputParcours'"
+                    [class]="displayValidationSelectStyle(stageFormControl.parcours)"
+                    name="parcours"
+                    formControlName="parcours">
+                <option [ngValue]="null" disabled selected>Selectionner le parcours</option>
+                <option *ngFor="let parcours of allParcours" [ngValue]="parcours?._id">{{ parcours.acronyme }}</option>
+            </select>
+        </div>
+      <!--  Description du stage -->
+        <div class="form-group-row">
+            <label      [for]="addStage ? 'addInputDescription':'editInputDescription'">Description</label>
+            <textarea   [id]="addStage ? 'addInputDescription':'editInputDescription'"
+                        class="form-control"
+                        placeholder="Description du stage"
+                        rows="3"
+                        name="description"
+                        formControlName="description"></textarea>
+
+        </div>
+        <!-- Durée du stage -->
+        <div class="form-group-row">
+            <label  [for]="addStage ? 'addInputDuree':'editInputDuree'">Durée</label>
+            <input  [id]="addStage ? 'addInputDuree':'editInputDuree'"
+                    type="number"
+                    [class]="displayValidationInputStyle(stageFormControl.duree)"
+                    placeholder="Nombre de mois"
+                    name="duree"
+                    min=1 max=6
+                    formControlName="duree">
+        </div>
+
+        <!-- Date début du stage -->
+        <div class="form-group-row">
+            <label  [for]="addStage ? 'addInputDateDebut':'editInputDateDebut'">Date de début</label>
+            <input  [id]="addStage ? 'addInputDateDebut':'editInputDateDebut'"
+                    type="date"
+                    class="form-control"
+                    name="dateDebut"
+                    formControlName="dateDebut">
+        </div>
+    </fieldset>
+
+     <!-- Section Entreprise -->
+     <fieldset *ngIf="displayFielset('entreprise')">
+        <!-- Entreprise du stage -->
+        <div class="form-group-row">
+            <label [for]="addStage ? 'addEntreprise':'editEntreprise'">Entreprise</label>
+            <select [id]="addStage ? 'addEntreprise':'editEntreprise'"
+                    [class]="displayValidationSelectStyle(stageFormControl.entreprise)"
+                    formControlName="entreprise">
+                <option [ngValue]="null" disabled selected>Selectionner l'entreprise</option>
+                <option *ngFor="let entreprise of allEntreprises" [ngValue]="entreprise?._id">{{ entreprise?.nom }}</option>
+            </select>
+        </div>
+    </fieldset>
+
+    <fieldset *ngIf="displayFielset('more')">
+        <!-- Compétences attendu pour le stage -->
+        <div class="form-group-row">
+            <label      [for]="addStage ? 'addInputCompetences':'editInputCompetences'">Compétences attendu</label>
+            <textarea   [id]="addStage ? 'addInputCompetences':'editInputCompetences'"
+                        class="form-control"
+                        rows="2"
+                        name="competences"
+                        placeholder="Compétences attendu durant le stage"
+                        formControlName="competences">
+            </textarea>
+        </div>
+        <!-- Conditions du stage -->
+        <div class="form-group-row">
+            <label      [for]="addStage ? 'addInputConditions':'editInputConditions'">Conditions</label>
+            <textarea   [id]="addStage ? 'addInputConditions':'editInputConditions'"
+                        class="form-control"
+                        rows="2"
+                        name="conditions"
+                        placeholder="conditions du stage"
+                        formControlName="conditions"></textarea>
+        </div>
+        <!-- Date début du stage -->
+        <div class="form-group-row">
+            <label [for]="addStage ? 'addInputSalaire':'editInputSalaire'">Salaire</label>
+            <div class="input-group">
+                <input type="number" class="form-control" placeholder="" [id]="addStage ? 'addInputSalaire':'editInputSalaire'">
+                <select class="custom-select">
+                    <option>par mois (brut)</option>
+                    <option>par heure (brut)</option>
+                </select>
+            </div>
+        </div>
+        <!-- Avantages du stage -->
+        <div class="form-group-row">
+            <label      [for]="addStage ? 'addInputAvantages':'editInputAvantages'">Avantages</label>
+            <textarea   [id]="addStage ? 'addInputAvantages':'editInputAvantages'"
+                        class="form-control"
+                        rows="2"
+                        name="avantages"
+                        placeholder="Avantages du stage"
+                        formControlName="avantages">
+            </textarea>
+        </div>
+    </fieldset>
+
+    <!-- Les boutons -->
+    <div class="block-btn">
+        <button *ngIf="!lastPage()"
+            type="button" [id]="addStage ? 'addNextButton':'editNextButton'" name="nextButton" value="Next"
+            (click)="next()"
+            class="btn btn-primary btn-sm btn-next" >
+            Suivant
+        </button>
+        <button *ngIf="lastPage() || (editStage ? true : false)"
+                type="submit" [id]="addStage ? 'addSubmitButton':'editSubmitButton'" name="addButton" value="Submit"
+                (click)="onSubmitForm()"
+                data-dismiss="modal"
+                class="btn btn-primary btn-sm btn-done">
+            {{ editStage ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button *ngIf="!firstPage()"
+            type="button" [id]="addStage ? 'addPredButton':'editPredButton'" name="predButton" value="Pred"
+            (click)="pred()"
+            class="btn btn-secondary btn-sm btn-pred">
+            Précédent
+        </button>
+    </div>
+</form>
+

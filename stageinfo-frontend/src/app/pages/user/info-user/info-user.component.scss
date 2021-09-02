@@ -1,0 +1,29 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 15px;
+    margin: 1rem;
+}
+
+@media (max-width: 800px) {
+    .all-card {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px 15px;
+        margin: 1rem;
+  }
+}
+
+.message-aucun-stage{
+    text-align: center;
+    margin-top:1rem;
+    font-style: italic;
+}
+
+
+

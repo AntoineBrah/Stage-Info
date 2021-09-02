@@ -1,0 +1,18 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height    
+}
+
+.all-card{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 15px 15px;
+    grid-template-areas:
+    ". card-info-parcours .";
+
+    margin: 1rem;
+    
+    #info-parcours{
+        grid-area: card-info-parcours;
+    }
+}

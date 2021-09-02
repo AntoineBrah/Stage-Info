@@ -1,0 +1,204 @@
+<app-navigation [title]="stage.titre"></app-navigation>
+
+<div class="all-card">
+
+    <app-gestion-etat-stage id="status-stage" [stage]="stage"></app-gestion-etat-stage>
+
+    <!-- Informations du stage -->
+    <app-card [id]="displaySectionEncadrant() ? 'information-stage' : 'information-stage-etendu'" title="Informations">
+            <p>Niveau requis : {{ stage?.niveauRequis }}</p>
+            <p>Parcours : {{ stage?.parcours?.acronyme }}</p>
+            <p>Durée : {{ stage?.duree }} mois</p>
+            <p>Début du stage : {{ stage?.dateDebut| date:'fullDate':'+0200':'fr' }}</p>
+    </app-card>
+
+    <!-- Avantages du stage -->
+    <app-card id="avantages-stage" title="Avantages, conditions et compétences">
+        <p>Salaire : {{ stage?.salaire }}</p>
+        <p>Avantages : {{ stage?.avantages }}</p>
+        <p>Conditions : {{ stage?.conditions}}</p>
+        <p>Compétences : {{ stage?.competences}}</p>
+    </app-card>
+
+    <!-- Encadrant du stage -->
+    <app-card *ngIf="displaySectionEncadrant()" id="encadrant-stage" title="Encadrants">
+        <p *ngIf="stage?.tuteur?._id">Tuteur : <a [routerLink]="['/liste-utilisateurs/user', stage?.tuteur?._id]">{{ stage?.tuteur?.nom + ' ' + stage?.tuteur?.prenom }}</a></p>
+        <p *ngIf="stage?.entreprise?.representant">Représentant entreprise: <a [routerLink]="['/liste-utilisateurs/user', stage.entreprise?.representant?._id]">{{ stage.entreprise?.representant?._id ? stage.entreprise?.representant?.nom + ' '+ stage.entreprise?.representant?.prenom: ''}}</a></p>
+        <p *ngIf="stage?.rapporteur?._id">Rapporteur : <a [routerLink]="['/liste-utilisateurs/user', stage?.rapporteur?._id]">{{ stage?.rapporteur?.nom + ' ' + stage?.rapporteur?.prenom }}</a></p>
+    </app-card>
+
+    <!-- Description du stage -->
+    <app-card id="description-stage" title="Description">
+        <p class="content-with-newline">{{ stage?.description }}</p>
+    </app-card>
+
+    <!-- Informations sur l'entreprise du stage -->
+    <app-card id="entreprise-stage" title="Entreprise">
+        <p>Nom : <a [routerLink]="['/liste-entreprises', stage?.entreprise?._id]">{{ stage?.entreprise?.nom }}</a> </p>
+        <p>Adresse : {{ stage?.entreprise?.voie }}</p>
+        <p>Site internet : <a [href]="stage?.entreprise?.siteweb" target="_blank">{{ stage?.entreprise?.siteweb }}</a> </p>
+        <br>
+
+    </app-card>
+</div>
+
+<ng-container *ngIf="canEditStage()">
+    <hr>
+    <h2>Pièces Jointes</h2>
+    <div id="pieces-jointes-stage">
+        <ng-container *ngIf="stage?.fichier.length">
+            <p *ngIf="errorMessage" class="alert alert-danger">Pour modifier une Pièce Jointe veuillez choisir un fichier </p>
+            <table class="card-table table table-striped table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom du fichier </th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ajout des stages de la BDD -->
+                    <tr *ngFor="let fichier of stage.fichier ">
+                        <td><a [href]="fichier.chemin" target="_blank">{{ fichier.nom }}</a></td>
+                        <td>{{ fichier.type }}</td>
+
+                        <td class="table-action">
+                            <!-- Bouton edit => ouvre un modal avec le formulaire de modification -->
+                            <app-button-edit data-toggle="modal" (click)="selectedPieceJointe(fichier)"  data-target="#modifierFichier" ></app-button-edit>
+
+                            <app-button-delete data-toggle="modal" (click)="selectedPieceJointe(fichier)" data-target="#suppressionFichier"></app-button-delete>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <p *ngIf="!(stage?.fichier.length)"class="alert alert-secondary"> Aucune pièce jointe pour ce stage</p>
+        <app-card>
+            <div *ngIf="alert" class="alert alert-success " role="alert">{{ alert }}</div>
+          <form [formGroup]="PjForm" (ngSubmit)="onSubmitAddFiles()">
+                <div class="form-group-row">
+                    <input id='files' type="file" (input)="fileChoosen($event)"  accept="application/pdf,application/msword" >
+                  <div class="form-group-row">
+                  <label for="typePj">Type de piece jointe :</label>
+                  <select id="typePj" class="form-control" formControlName="typePj">
+                    <option value="" disabled selected>Type de PJ</option>
+                    <option *ngFor="let x of type" [ngValue]="x">{{ x }}</option>
+                  </select>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-sm" type="submit" [disabled]="!uploaded || PjForm.value['typePj'] =='' " >Ajouter le fichier</button>
+            </form>
+        </app-card>
+    </div>
+</ng-container>
+<hr>
+
+    
+  <div *ngIf="stage?.noteStage==null && canEditNote()">
+    <H2>Fiche de Notation</H2>
+    <form [formGroup]="ficheNotationForm" (ngSubmit)="onSubmitForm()">
+      <fieldset>
+        <!-- Commentaire -->
+        <div class="form-group">
+          <label for="commentaire">Commentaire :</label>
+          <textarea
+            id="commentaire"
+            class="form-control"
+            formControlName="commentaire"
+            rows="3"
+            placeholder="">
+            </textarea>
+        </div>
+
+        <!-- Note -->
+        <div class="form-group">
+          <label for="note">Note :</label>
+          <input id="note" type="number" class="form-control" formControlName="note" step="1" min="0" max="20" value="10">
+        </div>
+      </fieldset>
+      <button class="btn btn-primary" type="submit" [disabled]="ficheNotationForm.invalid">Valider</button>
+
+    </form>
+    <hr>
+</div>
+
+<ng-container *ngIf="stage?.noteStage != null">
+  <app-card  title="Note Du stage">
+    <p>Note : {{ stage.noteStage.valeur }}</p>
+    <p>Commentaire : {{ stage?.noteStage.commentaire}}</p>
+  </app-card>
+  <hr>
+</ng-container>
+
+
+<h2>Commentaires sur le stage</h2>
+
+<div id="commentaires-stage">
+    <!-- les commentaires du stages-->
+    <app-card-item-comment *ngFor="let comment of stage.commentaires"
+            [idUser]="comment.idUser"
+            [author]="getCommentAuthor(comment.idUser)"
+            [date]="comment.dateCommentaire">
+        <a *ngIf="canEditStage()" id="btnSupprimerCommentaire" deleteBtn (click)="selectedComment(comment)" data-toggle="modal" data-target="#suppressionCommentaire" >Supprimer</a>
+        <p content>{{ comment.message }}</p>
+    </app-card-item-comment>
+
+    <!-- Ajouter un commentaire sur le stage -->
+    <div class="add-comment">
+        <form [formGroup]="commentaireForm" (ngSubmit)="ajouterCommentaire()">
+            <div class="form-group">
+                <label for="inputComment">Ajouter un commentaire : </label>
+                <textarea   id="inputComment"
+                            class="form-control"
+                            rows="3"
+                            formControlName="commentaire"></textarea>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm">Envoyer</button>
+        </form>
+    </div>
+  <hr>
+</div>
+
+
+
+
+<!---------------------------------------------------->
+<!-------------------- LES MODALS -------------------->
+<!---------------------------------------------------->
+<ng-container *ngIf="canEditStage()">
+
+    <!-- Modal pour supprimer la pièce jointe selectionné -->
+    <app-modal class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            id="suppressionFichier">
+        <span title> Supprimer la pièce jointe </span>
+        <p content>Confirmer la suppression de la pièce jointe : <strong>{{ selectPieceJointe?.nom }}</strong></p>
+        <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+        <button button2 (click)="supprimerFichier(selectPieceJointe._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+    </app-modal>
+  <app-modal class="modal fade"
+             tabindex="-1"
+             role="dialog"
+             id="modifierFichier">
+    <span title> Supprimer la pièce jointe </span>
+    <p content><input id='files1' type="file" (input)="fileChoosen($event)"  accept="application/pdf,application/msword" ></p>
+    <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+    <button button2 (click)="modifierFichier(selectPieceJointe._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">modfier</button>
+  </app-modal>
+
+
+  <!-- Modal pour supprimer le commentaire selectionné -->
+    <app-modal class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="suppressionCommentaire">
+        <span title> Supprimer le commentaire </span>
+        <p content>Confirmer la suppression du commentaire</p>
+        <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+        <button button2 (click)="supprimerCommentaire(selectComment._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+    </app-modal>
+
+
+
+    </ng-container>

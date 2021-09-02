@@ -1,0 +1,49 @@
+#login-content{
+    display:flex;
+    flex-direction: row;
+
+    max-width:930px;
+    margin:auto;
+    padding: 15px;
+
+    #left-container{
+        width:60%;
+        margin:15px;
+    }
+
+    #signin-container{
+        width: 40%;
+        min-width:300px;
+        max-width:400px;
+        margin:15px;
+
+        #text-forgot-passord{
+            font-size:0.75rem;
+            float:right;
+        }
+    }
+}
+.alert{
+    margin-top:15px;
+    margin-bottom: 0;
+}
+.other-connexion{
+    margin-top:20px;
+}
+
+
+
+label{
+    color:black;
+    font-size:0.825rem;
+}
+
+input{
+    font-size:0.825rem;
+}
+
+.btn{
+    width:100%;
+    font-size:0.825rem;
+}
+

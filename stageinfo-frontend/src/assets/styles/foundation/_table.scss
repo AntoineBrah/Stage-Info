@@ -1,0 +1,28 @@
+
+.table{
+    color: #6c757d;
+    thead th {
+        border-bottom: 2px solid #dee6ed;
+        font-weight: 600;
+    }
+    td{
+        max-width:300px;
+    }
+}
+
+.table tr:first-child th {
+    border-top: 0;
+}
+
+tbody>tr>td {
+    vertical-align: middle;
+}
+
+.table td:first-child, .table th:first-child {
+    border-left: 0;
+    padding-left: 1.25rem;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f4f7f9;
+}

@@ -1,0 +1,89 @@
+<h1>{{ title }}</h1>
+<app-card-filter [commonProperties]="commonProperties"></app-card-filter>
+
+<app-card-table>
+    <!-- component select pour le nombre de ligne à afficher sur une page dans le tableau-->
+    <app-nbItems entries [commonProperties]="commonProperties"></app-nbItems>
+
+    <!-- Bouton ajouter => ouvre un modal avec le formulaire d'ajout -->
+    <app-button-add button1 data-toggle="modal" data-target="#ajouter"></app-button-add>
+    
+    <div content class="table-responsive">
+        <table class="card-table table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(0)" [sorted]="visibleProperties[0].sorted">
+                            Entreprise
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(1)" [sorted]="visibleProperties[1].sorted">
+                            Ville
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">
+                        <app-th-table-sort  (click)="sortByAscendingDescendingOrder(2)" [sorted]="visibleProperties[2].sorted">
+                            Représentant
+                        </app-th-table-sort>
+                    </th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entreprise of getItems()">
+                    <td><a [routerLink]="['/liste-entreprises', entreprise._id]">{{ entreprise.nom }}</a></td>
+                    <td>{{ entreprise.ville }}</td>
+                    <td><a [routerLink]="['/liste-utilisateurs/user', entreprise?.representant?._id]">{{ entreprise?.representant?._id ? entreprise?.representant?.nom + ' ' + entreprise?.representant?.prenom : ''}}</a></td>
+                    <td class="table-action">
+                        <!-- Bouton edit => ouvre un modal avec le formulaire de modification -->
+                        <app-button-edit data-toggle="modal" (click)="selectedItem(entreprise)" data-target="#modifier"></app-button-edit>
+                        <!-- Bouton delete => ouvre un modal avec la demande de suppression -->
+                        <app-button-delete data-toggle="modal" (click)="selectedItem(entreprise)" data-target="#suppression"></app-button-delete>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <app-pagination [commonProperties]="commonProperties"></app-pagination>
+    </div>    
+</app-card-table>
+
+<!---------------------------------------------------->
+<!-------------------- LES MODALS -------------------->
+<!---------------------------------------------------->
+
+
+<!-- Modal avec le formulaire de modification de l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="modifier">
+    <span title>Modifier l'entreprise : {{ selectItem.nom | uppercase }}</span>
+    <app-form-entreprise content [editEntreprise]="true" 
+                                [idEntreprise]="selectItem._id"
+                                [selectedEntreprise]="selectItem"
+                                (entrepriseEvent)="updateTable($event)">
+    </app-form-entreprise>
+</app-modal>
+
+<!-- Modal pour supprimer l'objet selectionné -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="suppression">
+    <span title> Supprimer l'entreprise </span>
+    <p content>Confirmer la suppression de l'entreprise : <strong> {{ selectItem.nom | uppercase }}</strong></p>
+    <button button1 type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annuler</button>
+    <button button2 (click)="deleteEntreprise(selectItem._id)" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Supprimer</button>
+</app-modal>
+
+<!-- Modal pour Ajouter un item (formulaire d'ajout) -->
+<app-modal class="modal fade"
+        tabindex="-1" 
+        role="dialog" 
+        id="ajouter">
+        <span title>Ajouter une entreprise</span>
+
+    <app-form-entreprise content [addEntreprise]="true" (entrepriseEvent)="addEntreprise($event)"> </app-form-entreprise>
+</app-modal>

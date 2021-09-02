@@ -1,0 +1,168 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card{
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+    ". card-add-stage .";
+    #add-stage{
+        grid-area: card-add-stage;
+        .card-title{
+            margin-bottom: 0 !important;
+        }
+        .card-header{
+            padding-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .all-card{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "card-add-stage";
+    }
+}
+
+h1{
+    text-align: center;
+}
+
+ul{
+    padding:20px 40px;
+    display: flex;
+    width:100%;
+    justify-content: space-between;
+    margin:0;
+    list-style-type: none;
+    //background-color: #f7f9fc;
+    z-index: 1;
+    li{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    li > i{
+        align-self: center;
+        width:50px;
+        height:50px;
+        line-height: 32px;
+        margin-bottom: 4px;
+        border: 3px solid #49505793;
+        
+        padding:5px;
+        border-radius: 100%;
+        z-index: 1;
+        background-color:white;
+    }
+    .fieldset-active{
+        color: #495057;
+        
+        i{
+            color: white;
+            //border: 3px solid #293042;
+            background-color: #495057;
+        }
+    }
+}
+ul::before {
+    content: '';
+    position: absolute;
+    top:60px;
+    left:0px;
+    width:100%;
+    flex: 1 2 auto; /* the first digint is 'flex-grow: 1', helps elemet to occupy all free space */ 
+    border-top: dashed 2px #49505793;
+    
+  }
+  .progress-first::after {
+    content: '';
+    position: absolute;
+    top:60px;
+    left:0px;
+    width:20%;
+    flex: 1 2 auto; /* the first digint is 'flex-grow: 1', helps elemet to occupy all free space */ 
+    border-top: solid 2px #495057;
+  }
+  .progress-second::after {
+    content: '';
+    position: absolute;
+    top:60px;
+    left:0px;
+    width:50%;
+    flex: 1 2 auto; /* the first digint is 'flex-grow: 1', helps elemet to occupy all free space */ 
+    border-top: solid 2px #495057;
+  }
+  .progress-third::after {
+    content: '';
+    position: absolute;
+    top:60px;
+    left:0px;
+    width:80%;
+    flex: 1 2 auto; /* the first digint is 'flex-grow: 1', helps elemet to occupy all free space */ 
+    border-top: solid 2px #495057;
+  }
+
+hr{
+    margin: 5px 0 5px 0;
+}
+
+
+
+form{
+    margin: 10px 30px 10px 30px;
+    fieldset{
+        margin-bottom: 10px;
+    }
+    .form-control-plaintext{
+        outline : none;
+    }
+    .form-group-row{
+        display: flex;
+        flex-direction: row;
+        margin:5px;
+
+        label{
+            width:200px;
+            align-self:center;
+            font-weight:bold;
+            margin:0;
+        }
+        input, select, .form-select-plaintext{
+            width:100%;
+            padding:3px;
+        }
+        .input-group{
+            width: 100% !important;
+            .custom-select{
+                display: inline-block;
+                width: 50%;
+            }
+            .form-control{
+                display: inline-block;
+                width: 50%;
+            }
+        }
+        
+    }
+
+    .btn-done{
+        float:right;
+        margin:0px 5px 0px 5px;
+    }
+    .btn-next, .btn-pred{
+        float:right;
+        margin-left:5px;
+    }
+        
+    
+}
+
+
+
+

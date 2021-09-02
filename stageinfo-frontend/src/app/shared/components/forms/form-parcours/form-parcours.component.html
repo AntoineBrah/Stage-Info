@@ -1,0 +1,85 @@
+<form [formGroup]="parcoursForm" (ngSubmit)="onSubmitForm()">
+    <!-- Nom du parcours -->
+    <div class="form-group-row">
+        <label [for]="addParcours ? 'addInputAcronyme':'editInputAcronyme'">Acronyme</label>
+        <input  type="text" 
+                [id]="addParcours ? 'addInputAcronyme':'editInputAcronyme'"  
+                [class]="displayValidationInputStyle(parcoursFormControl.acronyme)"
+                placeholder="Acronyme du parcours" 
+                name="parcoursAcronyme"
+                formControlName="acronyme">
+    </div>
+    <!-- Niveau du parcours -->
+    <div class="form-group-row">
+        <label [for]="addParcours ? 'addInputNiveau':'editInputNiveau'">Niveau</label>
+        <select [id]="addParcours ? 'addInputNiveau':'editInputNiveau'"
+                [class]="displayValidationSelectStyle(parcoursFormControl.niveau)"
+                name="niveau"
+                formControlName="niveau">
+            <option value="" disabled selected>Selectionner le niveau</option>
+            <option value="L3">L3</option>
+            <option value="M1">M1</option>
+            <option value="M2">M2</option>
+        </select>
+    </div>
+    <!-- Intitulé du parcours -->
+    <div class="form-group-row">
+        <label [for]="addParcours ? 'addInputIntitule':'editInputIntitule'">Intitule</label>
+        <input  type="text" 
+                [id]="addParcours ? 'addInputIntitule':'editInputIntitule'" 
+                [class]="displayValidationInputStyle(parcoursFormControl.intitule)"
+                placeholder="Intitule du parcours" 
+                name="parcoursIntitule"
+                formControlName="intitule">
+    </div>
+    <!-- Description du parcours -->
+    <div class="form-group-row">
+        <label [for]="addParcours ? 'addInputDescription':'editInputDescription'">Description</label>
+        <textarea   [id]="addParcours ? 'addInputDescription':'editInputDescription'"
+                    class="form-control"
+                    placeholder="Description du parcours"
+                    rows="3"
+                    name="parcoursDescription"
+                    formControlName="description"></textarea>
+    </div>
+
+    <!-- Responsable du parcours -->
+    <div class="form-group-row">
+        <label [for]="addParcours ? 'addInputResponsable':'editInputResponsable'">Responsable</label>
+        <select [id]="addParcours ? 'addInputResponsable':'editInputResponsable'"
+                [class]="displayValidationSelectStyle(parcoursFormControl.responsable)"
+                name="responsable"
+                formControlName="responsable">
+            <option [ngValue]="null" disabled selected>Selectionner le responsable</option>
+            <option *ngFor="let resp of allResponsable" [ngValue]="resp._id">{{ resp.nom + ' ' + resp.prenom }}</option>
+        </select>
+    </div>
+
+    <!-- Si Modification Parcours -->
+    <!-- On place le bouton click car sinon on ne peut pas executer la fonction car le data-dismiss apparait avant-->
+    <button *ngIf="editParcours" 
+            type="submit" 
+            (click)="onSubmitForm()" 
+            data-dismiss="modal" 
+            class="btn btn-primary btn-sm btn-modifier" 
+            [disabled]="parcoursForm.pristine">
+        Modifier
+    </button>
+    <!-- Si Ajouter un Parcours -->
+    <ng-container *ngIf="addParcours">
+        <!-- en fonction de si le formulaire est valide ou non on met le data dismiss pour fermer le modal-->
+        <button *ngIf="parcoursForm.invalid" 
+                type="submit" 
+                (click)="onSubmitForm()"
+                class="btn btn-primary btn-sm btn-ajouter">
+            Ajouter
+        </button>
+        <button *ngIf="!parcoursForm.invalid" 
+                type="submit" 
+                (click)="onSubmitForm()"
+                data-dismiss="modal" 
+                class="btn btn-primary btn-sm btn-ajouter">
+            Ajouter
+        </button>
+    </ng-container>
+</form>

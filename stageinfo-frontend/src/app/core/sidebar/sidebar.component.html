@@ -1,0 +1,60 @@
+<aside>
+
+    <nav class="sidebar-content" >
+
+        <!-- Title's website-->
+        <div class="navbar">
+            <a class="navbar-brand" id="website-title" (click)="changeDisplaySidebar()">
+                <i  class="sidebar-icon fa-lg fas fa-layer-group"></i>
+                StageInfo
+            </a>
+
+      
+            <a id="button-menu" (click)="changeDisplaySidebar()">
+                <i class="fas fa-lg fa-times"></i>
+            </a>
+     
+    
+              
+        </div>
+
+        <!-- Navigation -->
+        <div *ngFor="let categorie of choixNavigation()">
+            <p class="sidebar-header">{{ categorie.title }}</p>
+            <ul class="sidebar-nav">
+                <li *ngFor="let item of categorie.items" class="sidebar-item">
+                    <span *ngIf="item.items.length == 0 && !externalLink(item.lien)">
+                        <a [routerLink]="item.lien" (click)="closeSideBar()">
+                            <i  [class]="'sidebar-icon fa-lg ' + item.icon"></i>
+                            <span class="sidebar-link">{{ item.nom }}</span>
+                        </a>
+                    </span>
+                    <!-- SI le lien est un liens vers une page externe-->
+                    <span *ngIf="item.items.length == 0 && externalLink(item.lien)">
+                        <a [href]="item.lien" target="_blank" (click)="closeSideBar()">
+                            <i  [class]="'sidebar-icon fa-lg ' + item.icon"></i>
+                            <span class="sidebar-link">{{ item.nom }}</span>
+                        </a>
+                    </span>
+
+
+                    <span *ngIf="!(item.items.length == 0)">
+                        <!--'#' + item.nom.split(' ').join('-') permet de générer une ancre avec le nom de la catégorie (on supprime les espaces et on les remplaces par des "-" ")-->
+                        <a  class="sidebar-link" [href]="'#' + item.nom.split(' ').join('-')" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i  [class]="'sidebar-icon fa-lg ' + item.icon"></i>
+                            <span class="sidebar-link">{{ item.nom }}</span>
+                        </a>
+                        <ul  *ngFor="let subitem of item.items" class="collapse list-unstyled" [id]="item.nom.split(' ').join('-')">
+                            <li class="sidebar-item">
+                                <a class="sidebar-subitem" [href]="subitem.lien" (click)="closeSideBar()">
+                                    {{ subitem.nom }}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</aside>

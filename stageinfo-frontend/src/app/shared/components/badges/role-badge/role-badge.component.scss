@@ -1,0 +1,29 @@
+// les variables couleurs sont importé du fichier scss colors
+@import '/src/assets/styles/colors.scss';
+
+$roles: (
+    "invite": $color-propose, 
+    "etudiant": $color-affectEtudiant, 
+    "tuteur": $color-affectTuteur,
+    "secretaire": $color-termine,
+    "admin":$color-refuse,
+    "repEntreprise":$color-valide,
+    "respParcours": $color-affectTuteur,
+    "respStages": $color-refuse,);
+
+@each $name, $color in $roles {
+.role-#{$name} {
+    color: #fff;
+    background-color: $color;
+  }
+}
+
+.role-invite{
+    color: #000;
+    background-color: $color-propose;
+}
+
+.badge{
+    padding-left:1rem;
+    padding-right:1rem;
+}

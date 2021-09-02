@@ -1,0 +1,59 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+h1{
+    text-align: center;
+}
+
+.card{
+    .card-title{
+        margin-bottom: 0 !important;
+    }
+    .card-header{
+        padding-bottom: 0;
+    }
+}
+hr{
+    margin: 5px 0 5px 0;
+}
+.btn-icon-modifier{
+    color:#6c757d;
+}
+form{
+    margin: 10px 30px 10px 30px;
+    fieldset{
+        margin-bottom: 10px;
+    }
+    .form-control-plaintext{
+        outline : none;
+    }
+    .form-group-row{
+        display: flex;
+        flex-direction: row;
+        margin:5px;
+
+        label{
+            width:200px;
+            align-self:center;
+            font-weight:bold;
+            margin:0;
+        }
+        input, select, .form-select-plaintext{
+            width:100%;
+            padding:3px;
+        }
+        
+    }
+    .btn{
+        float:right;
+    }
+    .btn-modifier{
+        margin:0px 5px 0px 5px;
+    }
+}
+
+
+
+

@@ -1,0 +1,44 @@
+:host {             // host targets selector
+    width: 100%;    // takes parent width        
+    height: 100%;   // takes parent height   
+}
+
+.all-card{
+    margin-top:2rem;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+    ". contact-section .";
+    #contact-section{
+        width: 100%;
+        grid-area: contact-section;
+        .card-title{
+            margin-bottom: 0 !important;
+        }
+        .card-header{
+            padding-bottom: 0;
+        }
+    }
+}
+
+#updateEmailForm{
+    display: flex;
+    flex-direction: row;
+}
+
+#buttonUpdateEmail{
+    width:200px;
+}
+
+@media (max-width: 1000px) {
+    .all-card{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "contact-section";
+    }
+}
+
+h1{
+    text-align: center;
+}

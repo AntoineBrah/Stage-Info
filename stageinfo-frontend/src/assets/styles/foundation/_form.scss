@@ -1,0 +1,28 @@
+.form-control, .custom-select{
+    font-size: .825rem;
+    height: initial;
+}
+
+
+input, select{
+    padding: 3px 7px !important;
+}
+.input-group{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    input{
+        width:20px;
+        display:inline-block;
+    }
+
+}
+.custom-select{
+    display:inline-block;
+}
+.form-control-plaintext{
+    color:#6c757d;
+    font-size: .825rem;
+    height: initial;
+    padding: 4px;
+}

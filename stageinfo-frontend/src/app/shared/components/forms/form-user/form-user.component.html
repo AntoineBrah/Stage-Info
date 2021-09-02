@@ -1,0 +1,219 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
+    <!-- Section information profile-->
+    <fieldset>
+        <!-- Prénom de l'utilisateur -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserPrenom':'editUserPrenom'">Prénom</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserPrenom':'editUserPrenom'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.prenom)"
+                    placeholder="{{ viewUser ? 'undefined' : 'Prénom de l\'utilisateur' }}"
+                    name="prenom"
+                    [readonly]="viewUser"
+                    formControlName="prenom">
+        </div>
+
+        <!-- Nom de l'utilisateur -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserNom':'editUserNom'">Nom</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserNom':'editUserNom'"  
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.nom)"
+                    placeholder="{{ viewUser ? 'undefined' : 'Nom de l\'utilisateur' }}"
+                    name="nom"
+                    [readonly]="viewUser"
+                    formControlName="nom">
+        </div>
+
+        <!-- Rôle de l'utilisateur -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserRole':'editUserRole'">Rôle</label>
+            <div *ngIf="viewUser" class="form-select-plaintext">
+                <span class="badge badge-secondary">{{ selectedUser.role }}</span>
+            </div>
+            <select [id]="addUser ? 'addUserRole':'editUserRole'"
+                    *ngIf="!(viewUser)"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationSelectStyle(userFormControl.role)" 
+                    name="role"
+                    formControlName="role">
+                <option value="" disabled selected>Selectionner un rôle</option>
+                <option *ngFor="let role of allRoles" [value]="role">{{ nameRole(role) }}</option>
+            </select>
+        </div>
+
+        <!-- Email de l'utilisateur -->
+        <div class="form-group-row" *ngIf="!editUser">
+            <label [for]="addUser ? 'addUserEmail':'editUserEmail'">Email</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserEmail':'editUserEmail'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.email)"
+                    name="email"
+                    placeholder="{{ viewUser ? 'undefined' : 'Email de l\'utilisateur' }}"
+                    [readonly]="viewUser"
+                    formControlName="email">
+        </div>
+
+        <!-- Mot de passe de l'utilisateur -->
+        <div class="form-group-row" *ngIf="addUser">
+            <label [for]="addUser ? 'addUserPassword':'editUserPassword'">Mot de passe</label>
+            <input  type="password" 
+                    [id]="addUser ? 'addUserPassword':'editUserPassword'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.password)"
+                    name="password"
+                    placeholder="{{ viewUser ? 'undefined' : 'Mot de passe' }}"
+                    autocomplete="off"
+                    formControlName="password">
+        </div>
+    </fieldset>
+
+    <hr *ngIf="displaySectionCoordonnees">
+
+    <!-- Section coordonnées de l'utilisateur -->
+    <fieldset *ngIf="displaySectionCoordonnees">
+
+        <!-- Téléphone de l'utilisateur -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserPhone':'editUserPhone'">Téléphone</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserPhone':'editUserPhone'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : 'form-control'"
+                    name="telephone"
+                    placeholder="{{ viewUser ? 'undefined' : 'Numéro de téléphone' }}"
+                    [readonly]="viewUser"
+                    formControlName="telephone">
+        </div>
+
+        <!-- Fax de l'utilisateur -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserFax':'editUserFax'">Fax</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserFax':'editUserFax'"  
+                    [ngClass]="viewUser? 'form-control-plaintext' : 'form-control'"
+                    name="fax"
+                    placeholder="{{ viewUser ? 'undefined' : 'Numéro de fax' }}"
+                    [readonly]="viewUser"
+                    formControlName="fax">
+        </div>
+    </fieldset>
+
+    <hr *ngIf="displaySectionEtudiant">
+
+    <!-- Section informations Etudiant de l'utilisateur -->
+    <fieldset *ngIf="displaySectionEtudiant">
+
+        <!-- Numéro de l'étudiant -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserNumEtudiant':'editUserNumEtudiant'">Numéro</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserNumEtudiant':'editUserNumEtudiant'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.numeroEtudiant)"
+                    class="numero"
+                    name="numEtudiant"
+                    placeholder="{{ viewUser ? 'undefined' : 'Numéro Étudiant' }}"
+                    [readonly]="viewUser"
+                    formControlName="numeroEtudiant">
+        </div>
+
+        <!-- Promotion de l'étudiant -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserPromotion':'editUserPromotion'">Promotion</label>
+            <div *ngIf="viewUser" class="form-select-plaintext">
+                <span class="badge badge-secondary">{{ selectedUser?.promotion }}</span>
+            </div>
+            <select [id]="addUser ? 'addUserPromotion':'editUserPromotion'"
+                    *ngIf="!(viewUser)"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationSelectStyle(userFormControl.promotion)" 
+                    name="promotionEtudiant"
+                    formControlName="promotion">
+                <option value="" disabled selected>Selectionner la promotion</option>
+                <option *ngFor="let i of promotions.reverse()" [ngValue]="i">{{ i }}</option>
+            </select>
+        </div>
+
+        <!-- Parcours de l'étudiant -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserParcours':'editUserParcours'">Parcours</label>
+            <div *ngIf="viewUser" class="form-select-plaintext">
+                <!-- ?. car on est pas sur qu'il soit défini -->
+                <span class="badge badge-secondary">{{ selectedUser?.parcours?.acronyme }}</span> 
+            </div>
+            <select [id]="addUser ? 'addUserParcours':'editUserParcours'"
+                    *ngIf="!(viewUser)"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationSelectStyle(userFormControl.parcours)" 
+                    name="parcoursEtudiant"
+                    formControlName="parcours">
+                <option [ngValue]="null" disabled selected>Selectionner le parcours</option>
+                <option *ngFor="let parcours of allParcours" [ngValue]="parcours?._id">{{ parcours.acronyme }}</option>
+            </select>
+        </div>
+        
+    </fieldset>
+
+    <hr *ngIf="displaySectionEntreprise">
+
+    <!-- Section représentant d'entreprise -->
+    <fieldset *ngIf="displaySectionEntreprise">
+
+        <!-- Entreprise du représentant -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserEntreprise':'editUserEntreprise'">Entreprise</label>
+            <div *ngIf="viewUser" class="form-select-plaintext">
+                <!-- ?. car on est pas sur qu'il soit défini -->
+                <span>{{ user?.entreprise?.nom }}</span> 
+            </div>
+            <select [id]="addUser ? 'addUserEntreprise':'editUserEntreprise'"
+                    *ngIf="!(viewUser)"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationSelectStyle(userFormControl.entreprise)" 
+                    formControlName="entreprise">
+                <option [ngValue]="null" disabled selected>Selectionner l'entreprise</option>
+                <option *ngFor="let entreprise of allEntreprises" [ngValue]="entreprise?._id">{{ entreprise?.nom }}</option>
+            </select>
+        </div>
+
+        <!-- Fonction du représentant -->
+        <div class="form-group-row">
+            <label [for]="addUser ? 'addUserFonction':'editUserFonction'">Fonction</label>
+            <input  type="text" 
+                    [id]="addUser ? 'addUserFonction':'editUserFonction'"
+                    [ngClass]="viewUser? 'form-control-plaintext' : displayValidationInputStyle(userFormControl.fonction)"
+                    name="fonction"
+                    placeholder="{{ viewUser ? 'undefined' : 'Fonction occupée dans l\'entreprise' }}"
+                    [readonly]="viewUser"
+                    formControlName="fonction">
+        </div>
+
+    </fieldset>
+
+    <!--------------------------------->
+    <!-- Si Modification Utilisateur -->
+    <!--------------------------------->
+
+    <!-- On place le bouton click car sinon on ne peut pas executer la fonction car le data-dismiss apparait avant-->
+    <button *ngIf="editUser" 
+            type="submit" 
+            (click)="onSubmitForm()" 
+            data-dismiss="modal" 
+            class="btn btn-primary btn-sm btn-modifier" 
+            [disabled]="userForm.pristine">
+        Modifier
+    </button>
+
+    <!-- Si Ajouter un Utilisateur -->
+    <ng-container *ngIf="addUser">
+        <!-- en fonction de si le formulaire est valide ou non on met le data dismiss pour fermer le modal-->
+        <button *ngIf="userForm.invalid" 
+                type="submit" 
+                (click)="onSubmitForm()"
+                class="btn btn-primary btn-sm btn-ajouter">
+            Ajouter
+        </button>
+        <button *ngIf="!userForm.invalid" 
+                type="submit" 
+                (click)="onSubmitForm()"
+                data-dismiss="modal" 
+                class="btn btn-primary btn-sm btn-ajouter">
+            Ajouter
+        </button>
+    </ng-container>
+</form>
+

@@ -1,0 +1,47 @@
+<!-- Navigation : bouton retour + titre de la page-->
+<app-navigation [title]="'Entreprise : ' + entreprise.nom"></app-navigation>
+
+<div class="all-card">
+    
+    <!-- Description de l'entreprise -->
+    <app-card id="presentation-entreprise" title="Description">
+        <p>{{ entreprise.description }}</p>
+    </app-card>
+
+    <!-- Information sur l'entreprise -->
+    <app-card id="info-entreprise" title="Informations">
+        <p>N° Siret : {{ entreprise.siret }}</p>
+        <p>Nombre employé : {{ entreprise.nbSalaries }}</p>
+        <p>Chiffre affaire en 2019 : {{ entreprise.chiffreAffaire }}</p>
+        <p>Représentant : <a [routerLink]="['/liste-utilisateurs/user', entreprise?.representant?._id]">{{ entreprise?.representant?.nom + ' ' + entreprise?.representant?.prenom }}</a></p>
+    </app-card>
+
+    <!-- Adresse de l'entreprise -->
+    <!--
+    <app-card title="Localisation">
+        <p>{{ entreprise.voie }}</p>
+        <p>{{ entreprise.ville }} - {{ entreprise.codePostal }}</p>
+        <p>{{ entreprise.pays }}</p>
+    </app-card>-->
+
+    <app-card-map id="adresse-entreprise" title="Localisation">
+        <p>{{ entreprise.voie }}</p>
+        <p>{{ entreprise.ville }} - {{ entreprise.codePostal }}</p>
+        <p>{{ entreprise.pays }}</p>
+    </app-card-map>
+
+    <!-- Informations pour contacter l'entreprise -->
+    <app-card id="contact-entreprise" title="Contact">
+        <p>Site : <a [href]="entreprise.siteweb">{{ entreprise.siteweb }}</a></p>
+        <p>Tel : <a href="#">{{ entreprise.tel }}</a></p>
+        <p>Fax : <a href="#">{{ entreprise.fax }}</a></p>
+    </app-card>
+
+    <!-- Les stages associées à l'entreprise -->
+    <app-card id="stages-entreprise" title="Stages">
+        <!-- Card d'un stage -->
+        <app-card-item-stage *ngFor="let stage of stages"
+            [stage]="stage" >
+        </app-card-item-stage>
+    </app-card>
+</div>

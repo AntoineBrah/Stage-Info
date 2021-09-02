@@ -1,0 +1,97 @@
+header{
+    box-shadow: 0 0 2rem 0 rgb(41 48 66 / 10%);
+}
+#website-title{
+    color: #293042;
+    font-weight: 500;
+}
+.role{
+    margin-left:1rem;
+    margin-right:1rem;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .button-sidebar{
+        align-self:center;
+        margin:0 0.5rem;
+        color:#293042;
+        cursor: pointer;
+    }
+
+    #changeRole{
+        float:right;
+        display: flex;
+        flex-direction: row;
+        .custom-control{
+            margin-left:1rem;
+            align-self: center;
+        }
+        p{
+            margin-right:1rem;
+            align-self: center; 
+        }
+    }
+    a:hover{
+        text-decoration: none !important;
+    }
+    .dropdown-item{
+        cursor: pointer;
+    }
+    #user-name{
+        align-self: center;
+        margin-right: 1rem;
+        text-decoration: none;   
+    }
+
+    #user-icon{
+        align-self: center;
+        a{
+            color:#495057;
+            cursor: pointer;
+        }
+    }
+    
+    #navbarRight{
+        display:flex;
+        a{
+            cursor: pointer;
+        }
+        p{
+            width:100%;
+            text-align: right;
+        }
+        
+    }
+}
+
+#website-titleCss{
+    display: none;
+}
+
+@media (max-width: 1100px) {
+    .link-text-menu, #viewRole{
+      display: none;
+  }
+}
+
+@media (max-width: 800px) {
+    .link-text-menu, #badge-role, #infoRole{
+      display: none;
+  }
+  #changeRole, #viewRole{
+      display: none;
+  }
+  #website-titleCss{
+    display: inline-block;
+}
+}
+
+@media (max-width: 600px) {
+    #website-titleCss{
+        text-align: center;
+        margin: auto;
+    }
+}

@@ -1,0 +1,110 @@
+<!-- Les boutons définis ci dessous permettent à l'administrateur de changer les état du stages facilement en cas d'erreur par exemple -->
+<div class="admin-change-state" *ngIf="!(getState() == 'propose')">
+    <button *ngIf="(getViewRole() =='admin') && (getRole() == 'admin')"
+    class="btn btn-outline-danger btn-sm" 
+    (click)="etatPrecedent()">Annuler le dernier changement d'état</button>
+    
+    <button *ngIf="getState() == 'affectRapporteur' && (getViewRole() =='admin') && (getRole() == 'admin')"
+    class="btn btn-outline-secondary btn-sm" 
+    style="margin-left:5px;"
+    (click)="changerEtat('termine')">Terminer</button>
+</div>
+
+<p>
+    <strong>État du stage : </strong>  <app-state-badge [state]="stage?.etat"></app-state-badge><br>
+    <span class="date-change-etat">
+        Proposé par 
+        <a [routerLink]="['/liste-utilisateurs/user', stage?.ajouteur?._id]">{{ stage?.ajouteur?.nom + ' ' + stage?.ajouteur?.prenom }}</a> 
+        le <span class="date">{{ stage?.datePropose | date:'fullDate':'+0200':'fr' }}</span>
+        <br></span>
+    <span *ngIf="stage?.dateValide" class="date-change-etat">
+        Validé le <span class="date">{{ stage?.dateValide | date:'fullDate':'+0200':'fr' }}</span>
+        <br></span>
+    <span *ngIf="stage?.etudiant?._id" class="nom-etudiant-affecté">
+        Affecté à l'étudiant : <a [routerLink]="['/liste-utilisateurs/user', stage?.etudiant?._id]">{{ stage?.etudiant?.nom + ' ' + stage?.etudiant?.prenom }}</a>
+    </span>
+</p>
+
+<!-- Première étape du processus de gestion des états d'un stage-->
+<!-- On choisit de valider le stage ou de le refuser. -->
+<!-- Un stage valide pourra être vu par tous le monde, alors qu'un stage proposé sera seulement vu par l'admin, le responsable stage -->
+<div class="alert alert-propose" *ngIf="(getState() == 'propose') && (getViewRole() =='admin')">
+    <p><strong>Validation du stage :</strong><br>
+        Cliquez sur Valider pour valider le stage et pour qu'il soit visible par les étudiants.<br>
+        Cliquez sur Supprimer pour refuser le stage et le supprimer de la base de données.
+    </p>
+        <button class="btn btn-danger btn-sm" style="margin:5px;" (click)="changerEtat('refuse')">Refuser</button>
+        <button class="btn btn-warning btn-sm" style="margin:5px;" (click)="changerEtat('valide')">Valider</button>
+</div>
+
+<!-- Deuxième étape -->
+<!-- Apprès la validation, si l'ajouteur est un étudiant il est automatiquement reservé pour lui -->
+<!-- Cependant, l'étudiant peut rendre le stage en non reservé si il souhaite le laisser pour un autre étudiant -->
+
+<!-- Troisième étape -->
+<!-- Le stage peut être affecté à un étudiant-->
+
+
+<!-- Quatrième étape -->
+<!-- Un enseignant peut choisir de devenir le tuteur du stage -->
+
+<!-- Ou bien l'administrateur ou le responsable de stage peut affecté un tuteur -->
+
+<!-- Cinquième étape -->
+<!-- un enseignant peut choisir de devenir rapporteur du stage -->
+
+<!-- ou bien on peut afffecté un rapporteur au stage-->
+
+
+<!-- Dernière étape -->
+<!-- Le stage est terminé une fois que la soutenance est passé (c'est le serveur qui s'occupe de faire cette vérification)-->
+
+
+
+<!-- Affichage des différents messages d'informations -->
+<ng-container *ngFor="let message of messages">
+    <ng-container *ngFor="let role of message.role">
+        <ng-container *ngFor="let etat of message.etat">
+            <div *ngIf="afficheMessage(etat, role)" [class]="'alert alert-'+ etat">
+                <p [innerHTML]="message.content"></p>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<!-- Affichage des différents messages de changement d'état (message button) -->
+<ng-container *ngFor="let message of messagesButton">
+    <ng-container *ngFor="let role of message.role">
+        <ng-container *ngFor="let etat of message.etat">
+            <div *ngIf="afficheMessage(etat, role)" [class]="'alert alert-'+ etat">
+                <form (ngSubmit)="onSubmit(f,message.newState)" #f="ngForm">
+                    <button type="submit" [class]="'btn btn-sm btn-outline-'+etat" [innerHTML]="message.content"></button>
+                </form>
+
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<!-- Affichage des différents messages de changement d'état (message select) -->
+<ng-container *ngFor="let message of messagesSelect">
+    <ng-container *ngFor="let role of message.role">
+        <ng-container *ngFor="let etat of message.etat">
+            <div *ngIf="afficheMessage(etat, role)" [class]="'alert alert-'+ etat">
+                <form (ngSubmit)="onSubmit(f,message.newState)" #f="ngForm">
+                    <div class="form-group-row">
+                        <label [for]="'input'+etat"> {{ message.label }}</label>
+                        <select [id]="'input'+ etat" class="form-control"
+                                [name]="message.name" ngModel required>
+                            <option value="" disabled selected>{{ message.default }}</option>
+                            <ng-container *ngFor="let user of listeUser(message.typeTable)">
+                                <option [ngValue]="user?._id">{{ user?.nom + ' ' + user?.prenom }}</option>   
+                            </ng-container>
+                        </select>
+                        <button type="submit" [class]="'btn  btn-sm btn-'+etat" [disabled]="f.invalid">{{ message.button}}</button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>

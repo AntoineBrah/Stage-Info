@@ -1,0 +1,87 @@
+<form [formGroup]="ficheNotationForm" (ngSubmit)="onSubmitForm()">
+    <h1>{{ title }}</h1>
+
+    <!-- Section infos étudiant -->
+    <fieldset>
+        <!-- Nom étudiant -->
+        <div class="form-group-row">
+            <label for="nomEtudiant">Étudiant :</label>
+            <input id="nomEtudiant" type="text" class="form-control" formControlName="nomEtudiant" [ngbTypeahead]="searchUser" aria-describedby="nomEtudiantHelper" (input)="setRoleUser('etudiant')"/>
+            <small id="nomEtudiantHelper" class="form-text text-muted">Nom et prénom</small>
+        </div>
+    </fieldset>
+
+    <!-- Section infos soutenance -->
+    <fieldset>
+        <!-- Date soutenance -->
+        <div class="form-group-row">
+            <label for="date">Date :</label>
+            <input type="date" id="date" class="form-control" formControlName="date" aria-describedby="dateHelper">
+            <small id="dateHelper" class="form-text text-muted">Date de la soutenance</small>
+        </div>
+
+        <!-- Heure soutenance -->
+        <div class="form-group-row">
+            <label for="heure">Heure :</label>
+            <input type="time" id="heure" class="form-control" formControlName="heure" aria-describedby="heureHelper">
+            <small id="heureHelper" class="form-text text-muted">Heure de la soutenance</small>
+        </div>
+    </fieldset>
+
+    <!-- Section infos encadrants (université et entreprise) -->
+    <fieldset>
+        <!-- Representant entreprise -->
+        <fieldset>
+            <div class="form-group-row">
+                <label for="nomRepresentant">Représentant :</label>
+                <input id="nomRepresentant" type="text" class="form-control" formControlName="nomRepresentant" [ngbTypeahead]="searchUser" (input)="setRoleUser('repEntreprise')" aria-describedby="representantHelper"/>
+                <small id="representantHelper" class="form-text text-muted">Représentant de l'entreprise</small>
+            </div>
+        </fieldset>
+
+        <!-- Tuteur université 1 -->
+        <fieldset>
+            <div class="form-group-row">
+                <label for="nomTuteur1">Tuteur principal :</label>
+                <input id="nomTuteur1" type="text" class="form-control" formControlName="nomTuteur1" [ngbTypeahead]="searchUser" (input)="setRoleUser('tuteur')" aria-describedby="nomTuteur1"/>
+                <small id="nomTuteur1Helper" class="form-text text-muted">Professeur encadrant 1</small>
+            </div>
+        </fieldset>
+
+        <!-- Tuteur université 2 -->
+        <fieldset>
+            <div class="form-group-row">
+                <label for="nomTuteur2">Tuteur secondaire :</label>
+                <input id="nomTuteur2" type="text" class="form-control" formControlName="nomTuteur2" [ngbTypeahead]="searchUser" (input)="setRoleUser('tuteur')" aria-describedby="nomTuteur2"/>
+                <small id="nomTuteur2Helper" class="form-text text-muted">Professeur encadrant 2</small>
+            </div>
+        </fieldset>
+    </fieldset>
+
+    <!-- Section commentaire & notation -->
+    <fieldset>
+        <!-- Commentaire -->
+        <div class="form-group">
+            <label for="commentaire">Commentaire :</label>
+            <textarea 
+                id="commentaire"
+                class="form-control"
+                formControlName="commentaire" 
+                rows="3"
+                placeholder="">
+            </textarea>
+        </div>
+
+        <!-- Note -->
+        <div class="form-group">
+            <label for="note">Note :</label>
+            <input id="note" type="number" class="form-control" formControlName="note" step="1" min="0" max="20" value="10">
+        </div>
+    </fieldset>
+
+    <hr>
+
+    <p>Fait le : {{ todayNumber | date }}</p>
+
+    <button class="btn btn-primary" type="submit" [disabled]="ficheNotationForm.invalid">Valider</button>
+</form>
