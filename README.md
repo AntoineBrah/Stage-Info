@@ -2,7 +2,7 @@
 
 ## Manuel d'installation
 
-Pour installer la plateforme de gestion de stage sur une machine local, veuiller respecter les étapes suivantes : 
+Pour installer la plateforme de gestion de stage sur une machine locale, veuillez respecter les étapes suivantes : 
 
 ### Etape 1 : Lancement du server (backend)
 
