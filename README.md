@@ -2,8 +2,8 @@
 
 ## Screenshots
 <p align="middle">
-  <img src="stageinfo-frontend/screenshots/1.jpg" />
-  <img src="stageinfo-frontend/screenshots/2.jpg" /> 
+  <img src="stageinfo-frontend/screenshots/1.png" />
+  <img src="stageinfo-frontend/screenshots/2.png" /> 
 </p>
 
 
