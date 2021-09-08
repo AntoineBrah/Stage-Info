@@ -1,5 +1,15 @@
 # StageInfo
 
+## Screenshots
+<p align="middle">
+  <img src="SocialMediaProject/stageinfo-frontend/screenshots/1.jpg" />
+  <img src="SocialMediaProject/stageinfo-frontend/screenshots/2.jpg" /> 
+</p>
+
+
+## Description
+L'objectif du projet est de réaliser une plateforme de gestion de stage pour les étudiants de Master informatique de la Faculté des Sciences de Montpellier.
+
 ## Manuel d'installation
 
 Pour installer la plateforme de gestion de stage sur une machine locale, veuillez respecter les étapes suivantes : 
